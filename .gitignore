@@ -1,0 +1,82 @@
+# Python 관련
+*.py[cod]
+__pycache__/
+*.so
+*.egg
+*.egg-info/
+.eggs/
+*.pyo
+*.pyd
+.Python
+
+# 환경 변수 파일
+.env
+
+# 가상 환경
+venv/
+ENV/
+env/
+venv.bak/
+venv.bak/
+
+# 설치된 패키지
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# 로컬 환경 설정
+.idea/
+.vscode/
+*.swp
+*~
+
+# 로그 파일 및 데이터베이스
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# Django 관련
+*.log
+/staticfiles
+/static
+/media
+
+# pipenv 관련
+pipenv/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.cache
+
+# coverage
+htmlcov/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# 기타
+docs/_build/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# PostgreSQL 관련
+*.sql
+*.dump
+pgdata/
