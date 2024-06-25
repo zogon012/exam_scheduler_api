@@ -46,23 +46,14 @@ jobs:
           pip install poetry
           poetry install
 
-      - name: Create .env file
-        run: |
-          touch .env
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
-          echo "DEBUG=${{ secrets.DEBUG }}>>" .env
-          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
-          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
-          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env
-          echo "POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}" >> .env
-
-      - name: Verify .env file
-        run: cat .env
-
-      - name: Run tests
+      - name: Run Tests
+        env:
+          SECRET_KEY: your-generated-secret-key
+          DEBUG: True
+          POSTGRES_DB: schedule
+          POSTGRES_USER: admin
+          POSTGRES_PASSWORD: password1!
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
         run: |
           poetry run pytest --cov
-
-
-
