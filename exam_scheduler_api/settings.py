@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_yasg',
     'accounts',
+    'examschedule',
     'rest_framework',
 ]
 
