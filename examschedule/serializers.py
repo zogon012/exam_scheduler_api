@@ -4,4 +4,4 @@ from .models import ExamSchedule
 class ExamScheduleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExamSchedule
-        fields = ['id', 'start_time', 'end_time']
+        fields = ['id', 'exam_name', 'exam_date']

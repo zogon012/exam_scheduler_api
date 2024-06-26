@@ -1,8 +1,11 @@
 from django.db import models
 
 class ExamSchedule(models.Model):
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    exam_name = models.CharField(max_length=255)
+    exam_date = models.DateField()
+
+    class Meta:
+        unique_together = ('exam_name', 'exam_date')
 
     def __str__(self):
-        return f"Exam from {self.start_time} to {self.end_time}"
+        return f"{self.exam_name} on {self.exam_date}"

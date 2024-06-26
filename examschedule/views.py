@@ -1,5 +1,3 @@
-# examschedule/views.py
-
 from rest_framework import viewsets
 from .models import ExamSchedule
 from .serializers import ExamScheduleSerializer
