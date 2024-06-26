@@ -8,6 +8,9 @@ class Reservation(models.Model):
     is_confirmed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        unique_together = ('user', 'schedule')
+
     def __str__(self):
         return f"Reservation by {self.user} for {self.schedule}"
 

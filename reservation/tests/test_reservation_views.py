@@ -1,5 +1,3 @@
-# reservation/tests/test_reservation_views.py
-
 import pytest
 from django.urls import reverse
 from rest_framework import status
@@ -112,3 +110,18 @@ def test_non_admin_cannot_confirm_reservations(authenticated_client):
     assert response.status_code == status.HTTP_403_FORBIDDEN
     confirmed_reservations = Reservation.objects.filter(is_confirmed=True)
     assert confirmed_reservations.count() == 0
+
+@pytest.mark.django_db
+def test_duplicate_reservation(authenticated_client):
+    client, user = authenticated_client()
+    schedule = ScheduleFactory()
+    url = reverse('reservation-list')
+    data = {
+        'schedule': schedule.id,
+    }
+    response = client.post(url, data, format='json')
+    assert response.status_code == status.HTTP_201_CREATED
+
+    response = client.post(url, data, format='json')
+    assert response.status_code == status.HTTP_400_BAD_REQUEST
+    assert response.data['detail'] == 'You have already booked a reservation for this schedule.'
