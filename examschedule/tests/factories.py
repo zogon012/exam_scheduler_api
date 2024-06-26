@@ -1,13 +1,11 @@
-# examschedule/tests/factories.py
-
 import factory
 from examschedule.models import ExamSchedule
-from datetime import timedelta
+from datetime import date
 
 class ExamScheduleFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = ExamSchedule
-        django_get_or_create = ('start_time', 'end_time')
+        django_get_or_create = ('exam_name', 'exam_date')
 
-    start_time = factory.Faker('date_time_this_month', before_now=False, after_now=True)
-    end_time = factory.LazyAttribute(lambda obj: obj.start_time + timedelta(hours=2))
+    exam_name = factory.Faker('word')
+    exam_date = factory.LazyFunction(lambda: date.today().strftime('%Y-%m-%d'))

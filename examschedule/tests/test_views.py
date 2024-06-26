@@ -1,39 +1,41 @@
-# examschedule/tests/test_views.py
-
 import pytest
 from django.urls import reverse
 from rest_framework import status
 from examschedule.models import ExamSchedule
 from examschedule.tests.factories import ExamScheduleFactory
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 @pytest.mark.django_db
 def test_create_exam_schedule(authenticated_client):
     client, user = authenticated_client(is_admin=True)
     url = reverse('examschedule-list')
     data = {
-        'start_time': '2024-06-25T10:00:00Z',
-        'end_time': '2024-06-25T12:00:00Z',
+        'exam_name': 'Test Exam',
+        'exam_date': datetime.today().strftime('%Y-%m-%d'),
     }
     response = client.post(url, data, format='json')
     assert response.status_code == status.HTTP_201_CREATED
     assert ExamSchedule.objects.count() == 1
     exam_schedule = ExamSchedule.objects.get(id=response.data['id'])
-    assert exam_schedule.start_time.isoformat() == '2024-06-25T10:00:00+00:00'
-    assert exam_schedule.end_time.isoformat() == '2024-06-25T12:00:00+00:00'
+    assert exam_schedule.exam_name == 'Test Exam'
+    assert exam_schedule.exam_date.isoformat() == datetime.today().strftime('%Y-%m-%d')
 
 @pytest.mark.django_db
 def test_update_exam_schedule(authenticated_client):
     client, user = authenticated_client(is_admin=True)
     exam_schedule = ExamScheduleFactory()
     url = reverse('examschedule-detail', args=[exam_schedule.id])
-    new_end_time = exam_schedule.end_time + timedelta(hours=1)
-    data = {'end_time': new_end_time.isoformat()}
+    current_exam_date = datetime.strptime(exam_schedule.exam_date, '%Y-%m-%d').date()
+    new_exam_date = (current_exam_date + timedelta(days=1)).strftime('%Y-%m-%d')
+    data = {
+        'exam_name': exam_schedule.exam_name,
+        'exam_date': new_exam_date
+    }
     response = client.patch(url, data, format='json')
     assert response.status_code == status.HTTP_200_OK
     exam_schedule.refresh_from_db()
-    # 타임존 정보 제거 후 비교
-    assert exam_schedule.end_time.replace(tzinfo=None) == new_end_time.replace(tzinfo=None)
+    assert exam_schedule.exam_name == data['exam_name']
+    assert exam_schedule.exam_date.isoformat() == new_exam_date
 
 @pytest.mark.django_db
 def test_delete_exam_schedule_with_admin(authenticated_client):
