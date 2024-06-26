@@ -39,6 +39,10 @@ class ReservationViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'You cannot book a reservation less than 3 days before the exam date.'},
                             status=status.HTTP_400_BAD_REQUEST)
 
+        user = request.user
+        if Reservation.objects.filter(user=user, schedule=schedule).exists():
+            return Response({'detail': 'You have already booked a reservation for this schedule.'}, status=status.HTTP_400_BAD_REQUEST)
+
         data = request.data.copy()
         data['is_confirmed'] = False
         serializer = self.get_serializer(data=data)
