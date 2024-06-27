@@ -51,6 +51,8 @@ The application will be available at `http://0.0.0.0:8000/`. You can access the 
 
 Swagger documentation for the API can be accessed at `http://0.0.0.0:8000/swagger/`.
 
+ReDoc documentation for the API can be accessed at `http://0.0.0.0:8000/redoc/`.
+
 ## Running Tests
 
 To run tests, use the following command:
